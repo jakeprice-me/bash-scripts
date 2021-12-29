@@ -26,12 +26,12 @@ for photo in *."$FILE_TYPE"; do
     # Get current file in loop:
     CURRENT_FILENAME=$(basename "$photo" .$FILE_TYPE)
 
-    # Only rename if DateTimeOriginal found, otherwise exit and report bad photo:
+    # Rename if DateTimeOriginal found:
     if identify -verbose "$photo" | grep "exif:DateTimeOriginal"; then
         OLD_FILENAME=$(basename "$photo" .$FILE_TYPE)
-        NEW_FILENAME=$(identify -verbose "$file" | grep "exif:DateTimeOriginal" | sed "s/    //; s/exif:DateTimeOriginal: //g; s/ /_/g; s/://g;")
+        NEW_FILENAME=$(identify -verbose "$file" | grep "exif:DateTimeOriginal" \
+            | sed "s/    //; s/exif:DateTimeOriginal: //g; s/ /_/g; s/://g;")
 
-        # Rename photos:
         mv "$OLD_FILENAME.$FILE_TYPE" "$NEW_FILENAME.$FILE_TYPE"
         echo -e "$OLD_FILENAME.$FILE_TYPE > $NEW_FILENAME.$FILE_TYPE" 
 
