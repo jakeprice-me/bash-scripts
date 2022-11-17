@@ -19,5 +19,5 @@ REPO_2=""
 # Collect and display issues:
 ( gh issue list --repo "$REPO_1" $FLAGS ; \
     gh issue list --repo "$REPO_2" $FLAGS ) \
-    | jq -cs 'add | sort_by(.createdAt) | .[] | {Number: .number, Created: .createdAt, Title: .title, Labels: [.labels[].name], Link: .url}' | jtbl -t
+    | jq -cs 'add | sort_by(.createdAt) | .[] | {Number: .number, Created: .createdAt | fromdate | strftime("%Y-%m-%d"), Title: .title, Labels: [.labels[].name]|join(", "), Link: .url}' | jtbl -t
  
