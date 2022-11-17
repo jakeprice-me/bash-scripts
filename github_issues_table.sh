@@ -11,12 +11,13 @@
 # - https://github.com/kellyjonbrazil/jtbl
 # *****************************************************************************
 
-FLAGS="--assignee @me --state open --json number,createdAt,title,state,labels"
+# Set variables:
+FLAGS="--assignee @me --state open --json number,createdAt,title,state,labels,url"
 REPO_1=""
 REPO_2=""
 
+# Collect and display issues:
 ( gh issue list --repo "$REPO_1" $FLAGS ; \
     gh issue list --repo "$REPO_2" $FLAGS ) \
-    | jq -cs 'add | sort_by(.createdAt) | .[] | {Number: .number, Created: .createdAt, Title: .title, Labels: [.labels[].name]}' | jtbl
+    | jq -cs 'add | sort_by(.createdAt) | .[] | {Number: .number, Created: .createdAt, Title: .title, Labels: [.labels[].name], Link: .url}' | jtbl -t
  
-
