@@ -11,14 +11,12 @@
 # - https://github.com/kellyjonbrazil/jtbl
 # *****************************************************************************
 
-JSON_KEYS="number,createdAt,title,state,labels"
-FLAGS="--assignee @me --state open --json $JSON_KEYS"
-REPO_1="Edgefolio/configuration"
-REPO_2="Edgefolio/api"
+FLAGS="--assignee @me --state open --json number,createdAt,title,state,labels"
+REPO_1=""
+REPO_2=""
 
-( \
-    gh issue list --repo "$REPO_1" "$FLAGS" ; \
-    gh issue list --repo "$REPO_2" "$FLAGS" ) \
+( gh issue list --repo "$REPO_1" $FLAGS ; \
+    gh issue list --repo "$REPO_2" $FLAGS ) \
     | jq -cs 'add | sort_by(.createdAt) | .[] | {Number: .number, Created: .createdAt, Title: .title, Labels: [.labels[].name]}' | jtbl
  
 
