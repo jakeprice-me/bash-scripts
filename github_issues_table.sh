@@ -13,12 +13,12 @@
 
 JSON_KEYS="number,createdAt,title,state,labels"
 FLAGS="--assignee @me --state open --json $JSON_KEYS"
-REPO_1=""
-REPO_2=""
+REPO_1="Edgefolio/configuration"
+REPO_2="Edgefolio/api"
 
 ( \
-    gh issue list --repo $REPO $FLAGS ; \
-    gh issue list --repo $REPO $FLAGS ) \
+    gh issue list --repo "$REPO_1" "$FLAGS" ; \
+    gh issue list --repo "$REPO_2" "$FLAGS" ) \
     | jq -cs 'add | sort_by(.createdAt) | .[] | {Number: .number, Created: .createdAt, Title: .title, Labels: [.labels[].name]}' | jtbl
  
 
